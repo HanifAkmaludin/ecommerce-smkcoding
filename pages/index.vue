@@ -1,27 +1,19 @@
 <script lang="ts" setup>
-import { products } from "~/composables/constants/products";
-
-const selectedCategory = ref("");
-const allProducts = computed(() => {
-  if (selectedCategory.value) {
-    return products.filter((item) => item.category === selectedCategory.value);
-  }
-  return products;
-});
-
+console.log(useRoute().name);
 </script>
 
 <template>
-  <section>
+  <section class="h-full">
     <div class="container">
-      <div class="py-10">
-        <div class="mb-6 flex justify-end">
-          <Dropdown @selected-category="selectedCategory = $event" />
+      <div class="flex items-center py-10">
+        <div class="w-1/2">
+          <span class="text-[#6867C5] font-normal">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</span>
+          <h1 class="text-5xl font-bold leading-[50px] mb-4 mt-2">Welcome to Our <br><span class="text-[#6867C5]">Ecommerce</span></h1>
+          <p class="mb-4 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium maxime deserunt dignissimos corrupti excepturi quae, et aperiam possimus, quisquam neque, tenetur rem voluptatibus repellat nemo ratione. Ex eum ipsum qui?</p>
+          <button class="px-5 bg-[#6867C5] py-2 text-white text-lg rounded-full">Get Started</button>
         </div>
-        <div class="flex gap-6 flex-wrap mx-auto">
-          <template v-for="(item, index) in allProducts" :key="index">
-            <CardsCardProduct :product="item" class="w-[calc(100%/4-18px)]"/>
-          </template>
+        <div class="w-1/2 flex justify-end">
+          <img src="~/assets/images/illustration.png" class="w-[400px]">
         </div>
       </div>
     </div>
