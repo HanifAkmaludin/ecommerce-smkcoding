@@ -3,7 +3,6 @@ definePageMeta({
   middleware: ["user-access"]
 });
 
-import { products } from "~/composables/constants/products";
 import { productsStore } from "~/stores/products";
 
 const useProductStore = productsStore();
@@ -13,15 +12,30 @@ useProductStore.getAllProducts().then(() => {
   allProducts.value = useProductStore.products;
 });
 
-// console.log(allProducts);
-
-const selectedCategory = ref("");
 // const allProducts = ref(computed(() => {
 //   if (selectedCategory.value) {
 //     return products.filter((item) => item.category === selectedCategory.value);
 //   }
 //   return products;
 // }));
+
+const filterByCategory = async (event: string) => {
+  if(event){
+    await useProductStore.filterByCategory(event);
+    if(useProductStore.status){
+      allProducts.value = useProductStore.products;
+    }else{
+      allProducts.value = [];
+    }
+  }else{
+    await useProductStore.getAllProducts();
+    if(useProductStore.status){
+      allProducts.value = useProductStore.products;
+    }else{
+      allProducts.value = [];
+    }
+  }
+}
 </script>
 
 <template>
@@ -35,7 +49,7 @@ const selectedCategory = ref("");
           <NuxtLink to="/product/create" class="bg-green-500 text-white flex justify-center items-center px-3 rounded-lg">
             Create Products
           </NuxtLink>
-          <Dropdown @selected-category="selectedCategory = $event" />
+          <Dropdown @selected-category="filterByCategory" />
         </div>
         <template v-if="allProducts.length === 0">
           <h1 class="text-3xl text-center">Product is Empty</h1>

@@ -38,7 +38,7 @@ const getProducts = async () => {
 getProducts();
 
 const removeCart = async (id: number) => {
-  const product = products.value.find((item) => item.id === id);
+  const product = products.value.find((item: any) => item.id === id);
   if(product){
     product.isCart = !product.isCart
   }

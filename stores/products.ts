@@ -131,5 +131,29 @@ export const productsStore = defineStore("products", {
         console.error(error);
       }
     },
+    async filterByCategory(category: string){
+      try{
+        const { baseUrl, apikey, secretKey } = useAppConfig();
+        const { data, error } = await useFetch(`rest/v1/products?category=eq.${category}`, {
+          baseURL: baseUrl,
+          method: "GET",
+          headers: {
+            apikey: apikey,
+            Authorization: `Bearer ${secretKey}`
+          },
+        })
+
+        if(error.value){
+          this.status = false;
+          this.message = "Get Products By Category Failed !!!";
+        }else if(data){
+          this.status = true;
+          this.message = "Get Products By Category successfully";
+          this.products = data.value;
+        }
+      }catch(error){
+        console.error(error);
+      }
+    }
   }
 })
