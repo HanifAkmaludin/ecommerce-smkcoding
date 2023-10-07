@@ -3,10 +3,14 @@ import { authStore } from '~/stores/auth';
 import { storeToRefs } from 'pinia';
 
 const useAuthStore = authStore();
-const getAccessToken = () => {
-  return localStorage.getItem("access_token");
-}
-const isAuthenticated = ref(useAuthStore.getAccessToken());
+// const getAccessToken = () => {
+//   return localStorage.getItem("access_token");
+// }
+const isAuthenticated = ref();
+
+onMounted(() => {
+  isAuthenticated.value = useAuthStore.getAccessToken();
+})
 
 const logout = () => {
   localStorage.clear();
