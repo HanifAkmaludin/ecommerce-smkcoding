@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { authStore } from '~/stores/auth';
 import { storeToRefs } from 'pinia';
+import useAuth from '~/composables/useAuth';
 
+
+const { rmAuthorizationToken, rmRefreshToken, getAuthorizationToken } = useAuth();
 const useAuthStore = authStore();
 // const getAccessToken = () => {
 //   return localStorage.getItem("access_token");
@@ -9,12 +12,16 @@ const useAuthStore = authStore();
 const isAuthenticated = ref();
 
 onMounted(() => {
-  isAuthenticated.value = useAuthStore.getAccessToken();
+  // isAuthenticated.value = useAuthStore.getAccessToken();
+  isAuthenticated.value = getAuthorizationToken();
 })
 
-const logout = () => {
-  localStorage.clear();
-  isAuthenticated.value = useAuthStore.getAccessToken();
+const logout = async () => {
+  // localStorage.clear();
+  await rmAuthorizationToken();
+  await rmRefreshToken();
+  // isAuthenticated.value = useAuthStore.getAccessToken();
+  isAuthenticated.value = getAuthorizationToken();
   navigateTo("/");
 }
 </script>

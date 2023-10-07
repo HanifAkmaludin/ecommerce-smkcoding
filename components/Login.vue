@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { authStore } from "~/stores/auth";
+import useAuth from "~/composables/useAuth";
 
+const { setAuthorizationToken, setRefreshToken } = useAuth();
 const authState = authStore();
 const isLoading = ref(false);
 const isShowAlert = ref(false);
@@ -32,8 +34,10 @@ const submitLogin = async () => {
     message.value = authState.message;
     isShowAlert.value = true;
     isLoading.value = false;
-    localStorage.setItem("access_token", authState.account.access_token);
-    localStorage.setItem("refresh_token", authState.account.refresh_token);
+    setAuthorizationToken(authState.account.access_token);
+    setRefreshToken(authState.account.refresh_token);
+    // localStorage.setItem("access_token", authState.account.access_token);
+    // localStorage.setItem("refresh_token", authState.account.refresh_token);
     const user = {
       id: authState.account.user.id,
       email: authState.account.user.email,
@@ -50,7 +54,6 @@ const submitLogin = async () => {
 
 onMounted(() => {
   if (authState.message) {
-    console.log(authState.message);
     message.value = authState.message;
     isShowAlert.value = true;
     isSuccess.value = authState.status;

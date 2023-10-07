@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-console.log(useRoute().name);
 </script>
 
 <template>
