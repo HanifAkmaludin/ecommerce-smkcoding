@@ -51,7 +51,7 @@ const filterByCategory = async (event: string) => {
           </NuxtLink>
           <Dropdown @selected-category="filterByCategory" />
         </div>
-        <template v-if="allProducts.length === 0">
+        <template v-if="allProducts?.length === 0">
           <h1 class="text-3xl text-center">Product is Empty</h1>
         </template>
         <div v-else class="flex gap-6 flex-wrap mx-auto">
